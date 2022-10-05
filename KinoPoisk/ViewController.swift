@@ -14,7 +14,7 @@ class ViewController: UIViewController {
     @IBOutlet private weak var colectionView: UICollectionView!
     
 
-    var film: Film?
+    var film:Film?
     
 
     
@@ -60,11 +60,12 @@ class ViewController: UIViewController {
 extension ViewController:  UICollectionViewDataSource, UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return (film?.docs.count)!
+        return film?.docs.count ?? 2
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        <#code#>
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FilmsCell", for: indexPath) as! FilmsCell
+        return cell
     }
     
     

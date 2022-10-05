@@ -15,5 +15,8 @@ class FilmsCell: UICollectionViewCell {
         super.awakeFromNib()
       
     }
-
+    
+    func setupCell(film: Film){
+        
+    }
 }
