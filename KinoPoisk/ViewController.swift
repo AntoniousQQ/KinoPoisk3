@@ -17,6 +17,7 @@ class ViewController: UIViewController {
     var film: Film?
     var posterArray: [String] = []
     
+    private var viewModel = [FilmsCellViewModel]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,6 +25,7 @@ class ViewController: UIViewController {
         self.colectionView.register(UINib(nibName: "FilmsCell", bundle: nil), forCellWithReuseIdentifier: "FilmsCell")
         self.colectionView.dataSource = self
         self.colectionView.delegate = self
+        self.colectionView.reloadData()
     }
     
     
@@ -31,26 +33,25 @@ class ViewController: UIViewController {
     
     func session() {
         let request = URLRequest(url: url)
-        URLSession.shared.dataTask(with: request) { data, response, error in
+        URLSession.shared.dataTask(with: request)  {[weak self] data, response, error in
             if let error = error {
                 print(error)
                 return
             }
             guard let data = data else {return}
             
-            DispatchQueue.main.async  { [self] in
+            DispatchQueue.main.async  {
                 do {
                     let date = try JSONDecoder().decode(Film.self, from: data)
-                    
-                    self.film = date
-                    guard self.film != nil else { return }
-    
-                    film?.docs.forEach({ i in
-                        posterArray.append(i.poster.url)
+                    self?.film = date
+                    guard let film = self?.film else { return }
+                    film.docs.forEach({ i in
+                        self?.posterArray.append(i.poster.url)
                     })
-                    print(posterArray)
-                    print(film?.docs[1].name ?? "server error")
-                    colectionView.reloadData()
+                    self?.viewModel = film.docs.compactMap({
+                        FilmsCellViewModel(logoUrl: $0.poster.url)
+                    })
+                    self?.colectionView.reloadData()
                 }catch {
                     print(error)
                 }
@@ -58,23 +59,29 @@ class ViewController: UIViewController {
         }.resume()
         
     }
-    
 }
 
 extension ViewController:  UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.film?.docs.count ?? 5
+        return self.viewModel.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FilmsCell", for: indexPath) as! FilmsCell
-        
+        cell.setup(with: viewModel[indexPath.row])
         return cell
-    }
-    
+        }
+
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height / 2)
+        return CGSize(width: UIScreen.main.bounds.width - 10, height: UIScreen.main.bounds.height / 2)
+    }
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 10
+       
+    }
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return UIEdgeInsets(top: 0, left: 6, bottom: 0 , right: 5)
     }
     
     
