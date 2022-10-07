@@ -9,17 +9,29 @@ import UIKit
 
 struct FilmsCellViewModel {
     let logoUrl: String?
+    let filmName: String
+    let rating: Double
 }
 
 class FilmsCell: UICollectionViewCell {
     @IBOutlet weak var filmImage: UIImageView!
     
+    @IBOutlet weak var ratingLabel: UILabel!
+    @IBOutlet weak var filmName: UILabel!
     var model: Film?
     
     override func awakeFromNib() {
         super.awakeFromNib()
         
-       
+        filmImage.clipsToBounds = true
+        filmImage.layer.cornerRadius = 5
+        
+        filmName.clipsToBounds = true
+        filmName.layer.cornerRadius = 5
+        
+        ratingLabel.clipsToBounds = true
+        ratingLabel.layer.cornerRadius = 5
+        ratingLabel.backgroundColor = UIColor(white: 255, alpha: 0.5)
     }
     
     static let identifire = "FilmsCell"
@@ -30,6 +42,8 @@ class FilmsCell: UICollectionViewCell {
                 if let data = data {
                     DispatchQueue.main.async {
                         self?.filmImage.image = UIImage(data: data)
+                        self?.filmName.text = viewModel.filmName
+                        self?.ratingLabel.text = "\(viewModel.rating)"
                     }
                 }
             }

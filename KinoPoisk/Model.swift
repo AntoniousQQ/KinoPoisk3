@@ -14,11 +14,11 @@ struct Film: Codable {
 struct Doc: Codable{
     let externalID: ExternalID?
     let logo: Logo
-    let poster: Poster
+    let poster: Poster?
     let rating: Rating
     let votes: Rating
     let id: Int?
-    let name: String
+    let name: String?
     let docDescription: String?
     let year: Int
     let alternativeName: String?

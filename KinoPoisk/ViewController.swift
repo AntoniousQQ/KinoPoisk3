@@ -46,11 +46,12 @@ class ViewController: UIViewController {
                     self?.film = date
                     guard let film = self?.film else { return }
                     film.docs.forEach({ i in
-                        self?.posterArray.append(i.poster.url)
+                        self?.posterArray.append(i.poster?.url ?? "")
                     })
                     self?.viewModel = film.docs.compactMap({
-                        FilmsCellViewModel(logoUrl: $0.poster.url)
+                        FilmsCellViewModel(logoUrl: $0.poster?.url, filmName: $0.name ?? "none", rating: $0.rating.imdb )
                     })
+                    print(film.docs[2].year)
                     self?.colectionView.reloadData()
                 }catch {
                     print(error)
@@ -82,6 +83,10 @@ extension ViewController:  UICollectionViewDataSource, UICollectionViewDelegate,
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: 0, left: 6, bottom: 0 , right: 5)
+    }
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let storyboard = UIStoryboard()
+        let vs = storyboard.instantiateViewController(withIdentifier: "")
     }
     
     
