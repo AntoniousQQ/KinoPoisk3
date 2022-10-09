@@ -8,11 +8,13 @@
 import UIKit
 
 
+
 class ViewController: UIViewController {
 
     
     @IBOutlet private weak var colectionView: UICollectionView!
     
+  
     
     var film: Film?
     var posterArray: [String] = []
@@ -27,7 +29,7 @@ class ViewController: UIViewController {
         self.colectionView.delegate = self
         self.colectionView.reloadData()
     }
-    
+
     
     let url = URL(string: "https://api.kinopoisk.dev/movie?field=rating.kp&search=7-10&token=1HGAM56-CFZM33W-HR9ECJK-REH9X31")!
     
@@ -51,7 +53,9 @@ class ViewController: UIViewController {
                     self?.viewModel = film.docs.compactMap({
                         FilmsCellViewModel(logoUrl: $0.poster?.url, filmName: $0.name ?? "none", rating: $0.rating.imdb )
                     })
-                    print(film.docs[2].year)
+                    
+                   
+                    
                     self?.colectionView.reloadData()
                 }catch {
                     print(error)
@@ -86,7 +90,7 @@ extension ViewController:  UICollectionViewDataSource, UICollectionViewDelegate,
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let storyboard = UIStoryboard()
-        let vs = storyboard.instantiateViewController(withIdentifier: "")
+        let vc = storyboard.instantiateViewController(withIdentifier: "")
     }
     
     
@@ -94,3 +98,35 @@ extension ViewController:  UICollectionViewDataSource, UICollectionViewDelegate,
 
 
 
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  

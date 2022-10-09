@@ -12,28 +12,19 @@ struct Film: Codable {
 
 // MARK: - Doc
 struct Doc: Codable{
-    let externalID: ExternalID?
     let logo: Logo
     let poster: Poster?
     let rating: Rating
     let votes: Rating
     let id: Int?
     let name: String?
-    let docDescription: String?
     let year: Int
     let alternativeName: String?
-    let enName: String?
     let names: [Name]
     let movieLength: Int?
     let shortDescription: String?
-    let color: String?
 }
 
-// MARK: - ExternalID
-struct ExternalID: Codable {
-    let id: String
-    let imdb: String?
-}
 
 // MARK: - Logo
 struct Logo: Codable {
@@ -61,5 +52,7 @@ struct Rating: Codable {
     let filmCritics: Double?
     let await: Double
 }
+
+
 
 
