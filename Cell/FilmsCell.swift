@@ -7,6 +7,8 @@
 import Foundation
 import UIKit
 
+var test = " Variable test by push on github"
+
 struct FilmsCellViewModel {
     let logoUrl: String?
     let filmName: String

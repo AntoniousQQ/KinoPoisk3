@@ -16,7 +16,7 @@ class ViewController: UIViewController {
     
   
     
-    var film: Film?
+   static var film: Film?
     var posterArray: [String] = []
     
     private var viewModel = [FilmsCellViewModel]()
@@ -45,8 +45,8 @@ class ViewController: UIViewController {
             DispatchQueue.main.async  {
                 do {
                     let date = try JSONDecoder().decode(Film.self, from: data)
-                    self?.film = date
-                    guard let film = self?.film else { return }
+                    ViewController.film = date
+                    guard let film = ViewController.film else { return }
                     film.docs.forEach({ i in
                         self?.posterArray.append(i.poster?.url ?? "")
                     })
@@ -86,11 +86,12 @@ extension ViewController:  UICollectionViewDataSource, UICollectionViewDelegate,
        
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 0, left: 6, bottom: 0 , right: 5)
+        return UIEdgeInsets(top: 0, left: 5, bottom: 0 , right: 5)
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let storyboard = UIStoryboard()
-        let vc = storyboard.instantiateViewController(withIdentifier: "")
+//        let storyboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+       let vc = storyboard?.instantiateViewController(withIdentifier: "InfoFilmVC") as! InfoFilmVC
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     
